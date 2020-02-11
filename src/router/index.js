@@ -69,6 +69,69 @@ const router = new VueRouter({
                 isAuth: false,
                 showFooter: true
             }
+        },
+        {
+            path: '/active/:name',
+            name: 'active',
+            component: () => import('../views/Active'),
+            meta: {
+                isAuth: false,
+                showFooter: false
+            }
+        },
+        {
+            path: '/noticeList',
+            name: 'noticeList',
+            component: () => import('../views/NoticeList'),
+            meta: {
+                isAuth: false,
+                showFooter: true
+            }
+        },
+        {
+            path: '/signin',
+            name: 'signin',
+            component: () => import('../views/account/Signin'),
+            meta: {
+                isAuth: true,
+                showFooter: true
+            }
+        },
+        {
+            path: '/share',
+            name: 'share',
+            component: () => import('../views/Share'),
+            meta: {
+                isAuth: false,
+                showFooter: true
+            }
+        },
+        {
+            path: '/exchange',
+            name: 'exchange',
+            component: () => import('../views/exchange/Exchange'),
+            meta: {
+                isAuth: false,
+                showFooter: true
+            }
+        },
+        {
+            path: '/exchange/list',
+            name: 'exchangeList',
+            component: () => import('../views/exchange/ExchangeList'),
+            meta: {
+                isAuth: false,
+                showFooter: true
+            }
+        },
+        {
+            path: '/exchange/goods/:id',
+            name: 'exchangeGoods',
+            component: () => import('../views/exchange/ExchangeGoods'),
+            meta: {
+                isAuth: false,
+                showFooter: true
+            }
         }
     ]
 });

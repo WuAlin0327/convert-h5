@@ -2,11 +2,12 @@ import Vue from 'vue'
 import Vant from 'vant'
 import router from "./router";
 import store from "./store";
-import 'vant/lib/index.css'
-import 'amfe-flexible'
-import './utils/rem'
+import 'vant/lib/index.css';
+import './assets/css/common.css';
+import 'amfe-flexible';
+import './utils/rem';
 Vue.use(Vant);
-import App from './App.vue'
+import App from './App.vue';
 
 Vue.config.productionTip = false;
 

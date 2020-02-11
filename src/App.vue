@@ -33,5 +33,6 @@ export default {
     outline: 0;
     color: #333;
     font-size: .6rem;
+    background-color: #F7F7F7;
   }
 </style>

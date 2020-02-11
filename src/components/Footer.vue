@@ -22,14 +22,14 @@
                         :src="props.active ? icon.upgrade.active : icon.upgrade.inactive"
                 >
             </van-tabbar-item>
-            <van-tabbar-item id="exchange" name="exchange">
+            <van-tabbar-item to="/exchange" id="exchange" name="exchange">
                 <img
                         slot="icon"
                         slot-scope="props"
                         :src="icon.logo"
                 >
             </van-tabbar-item>
-            <van-tabbar-item name="share">
+            <van-tabbar-item to="/share" name="share">
                 <span>分享</span>
                 <img
                         slot="icon"

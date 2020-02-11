@@ -1,9 +1,9 @@
 <template>
     <div class="index-content">
         <div class="top-header flex-box flex-between flex-mid">
-            <a href="/h5/signin/"><img :src="signIn" alt=""></a>
+            <router-link to="/signin"><img :src="signIn" alt=""></router-link>
             <img :src="indexHeader" style="width:8rem;height:100%" alt="">
-            <a href="/h5/noticeList/" class=""><img class="notice" :src="indexNotice" alt=""></a>
+            <router-link to="/noticeList" class=""><img class="notice" :src="indexNotice" alt=""></router-link>
         </div>
         <div style="padding-top:2.5rem">
             <div class="index-nav">
@@ -15,6 +15,7 @@
                 </van-swipe>
             </div>
         </div>
+
         <div id="menu">
             <van-swipe class="my-swipe" indicator-color="#007aff">
                 <van-swipe-item v-for="(page, index) in bankMenu" :key="index">
@@ -30,7 +31,33 @@
             </van-swipe>
         </div>
         <div id="notice">
-            <van-notice-bar text="通知内容" left-icon="volume-o" />
+            <van-notice-bar text="通知内容" left-icon="volume-o"/>
+        </div>
+        <div class="study clearfix">
+            <div class='clearfix'>
+                <span class="study_e">学习中心</span>
+                <a href="#/Study" class="">
+                    <span class="study_f f_right">更多&gt;&gt;</span>
+                </a>
+            </div>
+            <hr>
+            <div class="study_a clearfix">
+                <div class="clearfix study_g">
+                    <router-link to="/active/product_introduction" class="f_left">
+                        <img src="http://e.jfedui.cn/uploads/5ce4abf1cc323.png" class="study_b img-responsive">
+                    </router-link>
+                </div>
+                <div class="clearfix study_g">
+                    <router-link to="/active/agent_introduction" class="f_left">
+                        <img src="http://e.jfedui.cn/uploads/5ce4abe5cf8a8.png" class="study_c img-responsive">
+                    </router-link>
+                </div>
+                <div class="clearfix study_g">
+                    <router-link to="/active/novice_guide" class="f_left">
+                        <img  src="http://e.jfedui.cn/uploads/5ce4abca883cf.png" class="study_d img-responsive">
+                    </router-link>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -54,7 +81,7 @@
             Banner()
                 .then(response => {
                     this.swipeImages = response.data;
-                })
+                });
             indexMenu()
                 .then(response => {
                     const {data} = response;
@@ -97,15 +124,6 @@
         width: 5rem;
     }
 
-    a img {
-        border: 0;
-    }
-
-    img {
-        max-height: 100%;
-        max-width: 100%;
-    }
-
     .flex-box.flex-mid {
         display: -webkit-box;
         display: -webkit-flex;
@@ -126,13 +144,6 @@
         padding-right: 1rem;
     }
 
-    body {
-        width: 100%;
-        height: 100%;
-        outline: 0;
-        color: #333;
-        font-size: 16rem;
-    }
 
     .index-content .index-nav {
         width: 100%;
@@ -157,35 +168,94 @@
         text-align: center;
         position: relative;
     }
-    a, a:hover {
-        text-decoration: none;
-        color: #000;
-    }
-    .nav_img{
+
+    .nav_img {
         height: 50px;
         width: 50px;
         border-radius: 50%;
     }
-    p {
-        margin: 0 0 10px;
-        font-size: 14px;
-    }
+
+
+
     #menu {
         padding-top: 10px;
         overflow: hidden;
         background-color: #fff;
     }
-    #menu .van-swipe{
+
+    #menu .van-swipe {
         height: 9.5rem;
     }
 
-    #notice{
-        padding:10px 5px 5px;
+    #notice {
+        padding: 10px 5px 5px;
         background-color: #f2f2f2;
     }
 
-/*    滑块颜色 #007aff
-        #000
+    /*    滑块颜色 #007aff
+            #000
 
-*/
+    */
+
+    .study{
+        margin-top: 5px;
+        background-color: #fff;
+        padding-bottom: 2.5rem;
+    }
+    .study_e{
+        font-size: 18px;
+        margin-left: 20px;
+        line-height: 20px;
+        float: left;
+    }
+    .study_f{
+        font-size: 14px;
+        line-height: 20px;
+        margin-right: 20px;
+        float: right;
+    }
+    .study_a{
+        width: 100%;
+    }
+    .study_g{
+        width: 48%;
+        float: left;
+    }
+    .f_left {
+        float: left;
+    }
+
+    .study_e:before {
+        content: "";
+        position: absolute;
+        width: 5px;
+        height: 18px;
+        background-color: #108ee9;
+        left: 0.4rem;
+    }
+    .study_b {
+        height: 205px;
+        display: block;
+        border-radius: 10px;
+        padding: 2px;
+    }
+    .study_d{
+        height: 100px;
+        display: block;
+        border-radius: 10px;
+        padding: 0 0 2px 4px;
+    }
+    .study_c{
+        margin-bottom: 2px;
+        height: 100px;
+        display: block;
+        border-radius: 6px;
+        padding: 2px 0 2px 4px;
+    }
+    hr {
+        margin-top: 0.0rem;
+        margin-bottom: 0.5rem;
+        border: 0;
+        border-top: 1px solid #eee;
+    }
 </style>
