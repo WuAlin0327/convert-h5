@@ -1,8 +1,9 @@
 import axios from 'axios'
 import store from '@/store'
+import { __API__ } from '@/settings'
 // create an axios instance
 const service = axios.create({
-  baseURL: 'http://convert.l.onebound.cn', // url = base url + request url
+  baseURL: __API__, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 });
@@ -41,8 +42,9 @@ service.interceptors.response.use(
    */
   response => {
     // 响应码校验暂时取消，直接返回响应内容
-    const res = response.data
-    return res
+      // eslint-disable-next-line no-console
+
+    return response.data
   },
   error => {
     return Promise.reject(error)
