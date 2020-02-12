@@ -20,7 +20,7 @@
             <van-swipe class="my-swipe" indicator-color="#007aff">
                 <van-swipe-item v-for="(page, index) in bankMenu" :key="index">
                     <div class="nav_a" v-for="(item,key) in page" :key="key">
-                        <router-link :to="'/bank/'+item.id">
+                        <router-link :to="'/exchange?id='+item.id">
                             <img :src="item.image" alt=""
                                  class="nav_img">
                         </router-link>

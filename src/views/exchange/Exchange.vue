@@ -70,15 +70,15 @@
                         <div class="flex-box">
                             <div class="count-img"><img src="../../assets/images/exchange/count.png" alt=""></div>
                             <div class="input">
-                                <input type="tel" name="integral" placeholder="请输入试算积分">
+                                <input type="tel" v-model="integral" name="integral" placeholder="请输入试算积分">
 
                             </div>
                         </div>
                     </div>
-                    <button class="weui-btn main-btn calculateBtn">算一算</button>
+                    <button class="weui-btn main-btn calculateBtn" @click="calculateHandler">算一算</button>
                 </div>
-                <div class="margin-t20 font-18 get_money">
-                    <font color="#10B3F4">可获取：</font><font color="#000000"><big><big>0.00</big></big></font><font color="#000000">元</font>
+                <div class="margin-t20 font-18 get_money" v-html="result">
+
                 </div>
             </div>
             <div class="box-item margin-b10 main-content">
@@ -111,18 +111,21 @@
             return {
                 banks: [],              // 银行列表
                 show: false,            // 银行选择显示隐藏s
-                bankDetail: {}          // 银行详情
+                bankDetail: {},          // 银行详情
+                integral: '',
+                result: '<font color="#10B3F4" >可获取：</font><font color="#000000"><big><big>0.00</big></big></font><font color="#000000">元</font>'
             }
         },
         created() {
+            const { id } = this.$route.query;
             Banks()
                 .then(response => {
                     this.banks = response.data;
-                    this.getBankDetail(this.banks[0].id)
+                    this.getBankDetail(id?id:this.banks[0].id)
                 })
         },
         methods: {
-            onSelect(item,index){
+            onSelect(item){
                 this.getBankDetail(item.id);
                 this.show = false;
 
@@ -141,6 +144,18 @@
                         this.bankDetail = restful.data;
                         loading.clear();
                     })
+            },
+            calculateHandler(){
+                let rest = '<font color="#10B3F4" >可获取：</font>';
+                this.bankDetail.goods.forEach((item,index) => {
+                    const price = ((parseInt(this.integral) / 10000) * parseInt(item.price_1)).toFixed(2);
+                    if (index == (this.bankDetail.goods.length -1) ){
+                        rest += '</font><font color="#000000"><big><big>'+price+'</big></big></font><font color="#000000">元</font>'
+                    }else{
+                        rest += '</font><font color="#000000"><big><big>'+price+'</big></big></font><font color="#000000">元  或</font>'
+                    }
+                })
+                this.result = rest;
             }
         }
     }
@@ -166,17 +181,13 @@
         padding: 10px 15px 0;
         background: #fff;
     }
-    .main-content {
-        padding: 0 .75rem 0 .75rem;
-    }
+
     .exchange-content .box-item {
         border-radius: 10px;
         overflow: hidden;
         background: #fff;
     }
-    .margin-b10 {
-        margin-bottom: .5rem;
-    }
+
     .exchange-content .title {
         background: -webkit-linear-gradient(right, #8218F8 , #10B3F4);
         background: -o-linear-gradient(right, #8218F8, #10B3F4);
@@ -197,17 +208,9 @@
         justify-content: space-between;
         -webkit-justify-content: space-between;
     }
-    .font-18 {
-        font-size: 18px;
-    }
-    .font-10 {
-        font-size: 10px!important;
-    }
+
     .c999 {
         color: #9b9b9b;
-    }
-    .font-12 {
-        font-size: 12px!important;
     }
     .exchange-content .item-box {
         display: block;
@@ -262,9 +265,7 @@
     .main-content {
         padding: 0 .75rem 0 .75rem;
     }
-    .margin-t15 {
-        margin-top: .75rem;
-    }
+
     .exchange-content .count {
         flex: 1;
         border-radius: 10px;
@@ -352,9 +353,7 @@
         border-color: initial;
         border-image: initial;
     }
-    .margin-t20 {
-        margin-top: 1rem;
-    }
+
     #exchange{
         margin-bottom: 2.7rem;
     }

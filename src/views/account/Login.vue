@@ -150,4 +150,7 @@
 	.c999 {
 		color: #9b9b9b;
 	}
+	.login a{
+		font-size: 12px;
+	}
 </style>
