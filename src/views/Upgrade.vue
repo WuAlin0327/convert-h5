@@ -102,12 +102,17 @@
                 this.active = index;
             },
             upgradeHandler(userLevelId){
-                Upgrade(userLevelId)
-                    .then(response => {
-                        this.$dialog.alert({
-                            message: response.msg
-                        });
-                    })
+
+                    Upgrade(userLevelId)
+                        .then(response => {
+                            this.$dialog.alert({
+                                message: response.msg
+                            });
+                        })
+                        .catch(error => {
+                            this.$router.push('/login')
+                        })
+
             },
 
             /**

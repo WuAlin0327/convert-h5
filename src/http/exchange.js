@@ -16,3 +16,13 @@ export function bankDetail(id) {
         }
     })
 }
+
+export function bankGoods(id) {
+    return request({
+        url: '/api/exchange/bankGoods',
+        method: 'get',
+        params: {
+            id
+        }
+    })
+}

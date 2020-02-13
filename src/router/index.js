@@ -130,7 +130,34 @@ const router = new VueRouter({
             component: () => import('../views/exchange/ExchangeGoods'),
             meta: {
                 isAuth: false,
-                showFooter: true
+                showFooter: false
+            }
+        },
+        {
+            path: '/exchange/submit/images/:goodsId',
+            name: 'submitImages',
+            component: () => import('../views/exchange/submit/Images'),
+            meta: {
+                isAuth: true,
+                showFooter: false
+            }
+        },
+        {
+            path: '/exchange/submit/sms/:goodsId',
+            name: 'submitSms',
+            component: () => import('../views/exchange/submit/Sms'),
+            meta: {
+                isAuth: true,
+                showFooter: false
+            }
+        },
+        {
+            path: '/exchange/submit/integral/:goodsId',
+            name: 'submitIntegral',
+            component: () => import('../views/exchange/submit/Integral'),
+            meta: {
+                isAuth: true,
+                showFooter: false
             }
         }
     ]
