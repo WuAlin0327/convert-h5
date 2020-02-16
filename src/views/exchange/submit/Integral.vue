@@ -26,6 +26,8 @@
 </template>
 
 <script>
+    import {submitExchange} from "../../../http/exchange";
+
     export default {
         name: "Integral",
         data(){
@@ -39,7 +41,35 @@
         },
         methods: {
             submit(){
-                console.log('提交数据')
+                const params = {
+                    bank_goods_id: this.$route.params.goodsId,
+                    type: 1,
+                    integral: this.integral
+                };
+                const loading = this.$toast.loading({
+                    message: '加载中...',
+                    forbidClick: true
+                });
+                submitExchange(params)
+                    .then(response => {
+                        loading.clear();
+                        const that = this;
+                        if (response.code){
+                            this.$dialog.alert({
+                                message: response.msg,
+                                title:'提示',
+                                beforeClose: (action, done) => {
+                                    done();
+                                    that.$router.push('/exchange/order')
+                                }
+                            })
+                        }else{
+                            this.$dialog.alert({
+                                message: response.msg,
+                                title: '提示'
+                            })
+                        }
+                    })
             },
         }
     }

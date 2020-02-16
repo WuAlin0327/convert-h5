@@ -1,5 +1,10 @@
 import request from '../utils/request'
 
+/**
+ * 用户等级列表
+ * @returns {AxiosPromise}
+ * @constructor
+ */
 export function UserLevel() {
     return request({
         url: '/api/userlevel/lists',
@@ -7,6 +12,12 @@ export function UserLevel() {
     })
 }
 
+/**
+ * 用户升级
+ * @param id
+ * @returns {AxiosPromise}
+ * @constructor
+ */
 export function Upgrade(id) {
     return request({
         url: '/api/userlevel/upgrade',
@@ -14,5 +25,17 @@ export function Upgrade(id) {
         params: {
             user_level_id: id
         }
+    })
+}
+
+/**
+ * 用户信息
+ * @returns {AxiosPromise}
+ * @constructor
+ */
+export function UserInfo() {
+    return request({
+        url: '/api/user/userInfo',
+        method: 'get'
     })
 }

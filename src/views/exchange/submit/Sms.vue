@@ -36,6 +36,8 @@
 </template>
 
 <script>
+    import {submitExchange} from "../../../http/exchange";
+
     export default {
         name: "Sms",
         data(){
@@ -51,7 +53,36 @@
             submit(){
                 this.$toast.success({
                     message: '提交数据'
-                })
+                });
+                const params = {
+                    bank_goods_id: this.$route.params.goodsId,
+                    type: 2,
+                    sms_voucher: this.smsCode
+                };
+                const loading = this.$toast.loading({
+                    message: '加载中...',
+                    forbidClick: true
+                });
+                submitExchange(params)
+                    .then(response => {
+                        const that = this;
+                        loading.clear();
+                        if (response.code){
+                            this.$dialog.alert({
+                                message: response.msg,
+                                title:'提示',
+                                beforeClose: (action, done) => {
+                                    done();
+                                    that.$router.push('/exchange/order')
+                                }
+                            })
+                        }else{
+                            this.$dialog.alert({
+                                message: response.msg,
+                                title: '提示'
+                            })
+                        }
+                    })
             },
             addInput(){
                 this.$toast.success({

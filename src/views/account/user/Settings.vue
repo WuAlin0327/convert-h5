@@ -1,10 +1,12 @@
 <template>
-    <h1>文章教程页面</h1>
+    <h1>
+        用户设置列表页面
+    </h1>
 </template>
 
 <script>
     export default {
-        name: "Active"
+        name: "Settings"
     }
 </script>
 

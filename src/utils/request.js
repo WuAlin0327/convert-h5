@@ -43,7 +43,6 @@ service.interceptors.response.use(
   response => {
     // 响应码校验暂时取消，直接返回响应内容
       // eslint-disable-next-line no-console
-
     return response.data
   },
   error => {

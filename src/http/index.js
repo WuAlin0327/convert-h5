@@ -15,6 +15,12 @@ export function configApi(params = '*'){
     })
 }
 
+/**
+ * 登录
+ * @param account
+ * @param password
+ * @returns {AxiosPromise}
+ */
 export function loginApi(account,password) {
     return request({
         url: '/api/user/login',
@@ -26,6 +32,11 @@ export function loginApi(account,password) {
     })
 }
 
+/**
+ * Banner图
+ * @returns {*}
+ * @constructor
+ */
 export function Banner() {
     return request({
         url: '/api/banner/lists',
@@ -33,9 +44,45 @@ export function Banner() {
     })
 }
 
+/**
+ * 首页菜单
+ * @returns {*}
+ */
 export function indexMenu() {
     return request({
         url: '/api/index/menu',
         methods: 'get'
+    })
+}
+
+// export function uploadImage(file) {
+//     return request({
+//         url: '/api/common/upload',
+//         method: 'post',
+//         headers: {
+//             'Content-Type': 'multipart/form-data'
+//         },
+//         data: {
+//             file
+//         }
+//     })
+//
+// }
+/**
+ * 图片上传
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export const uploadImage = data => request({ url: '/api/common/upload', method: 'post', headers: { 'Content-Type': 'multipart/form-data' }, data });
+
+/**
+ * 专属客服
+ * @returns {AxiosPromise}
+ * @constructor
+ */
+export function Service() {
+    return request({
+        url: '/api/exclusive/service',
+        method: 'get'
     })
 }

@@ -35,6 +35,33 @@ const router = new VueRouter({
             }
         },
         {
+            path: '/user/settings',
+            name: 'userSettings',
+            component: () => import('../views/account/user/Settings'),
+            meta: {
+                isAuth: true,
+                showFooter: true
+            }
+        },
+        {
+            path: '/user/aboutus',
+            name: 'userAboutus',
+            component: () => import('../views/account/user/Aboutus'),
+            meta: {
+                isAuth: false,
+                showFooter: true
+            }
+        },
+        {
+            path: '/user/setUserInfo',
+            name: 'setUserInfo',
+            component: () => import('../views/account/user/setUserInfo'),
+            meta: {
+                isAuth: true,
+                showFooter: true
+            }
+        },
+        {
             path:'/login',
             name:'login',
             component: () => import('../views/account/Login'),
@@ -71,12 +98,12 @@ const router = new VueRouter({
             }
         },
         {
-            path: '/active/:name',
-            name: 'active',
-            component: () => import('../views/Active'),
+            path: '/article/:name',
+            name: 'article',
+            component: () => import('../views/Article'),
             meta: {
                 isAuth: false,
-                showFooter: false
+                showFooter: true
             }
         },
         {
@@ -158,6 +185,15 @@ const router = new VueRouter({
             meta: {
                 isAuth: true,
                 showFooter: false
+            }
+        },
+        {
+            path: '/exchange/order',
+            name: 'order',
+            component: () => import('../views/exchange/Order'),
+            meta: {
+                isAuth: true,
+                showFooter: true,
             }
         }
     ]

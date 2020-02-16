@@ -143,3 +143,9 @@ input {
     border-color: initial;
     border-image: initial;
 }
+.c333 {
+    color: #333;
+}
+.margin-t10 {
+    margin-top: .5rem;
+}

@@ -43,17 +43,17 @@
             <hr>
             <div class="study_a clearfix">
                 <div class="clearfix study_g">
-                    <router-link to="/active/product_introduction" class="f_left">
+                    <router-link to="/article/product_introduction" class="f_left">
                         <img src="http://e.jfedui.cn/uploads/5ce4abf1cc323.png" class="study_b img-responsive">
                     </router-link>
                 </div>
                 <div class="clearfix study_g">
-                    <router-link to="/active/agent_introduction" class="f_left">
+                    <router-link to="/article/agent_introduction" class="f_left">
                         <img src="http://e.jfedui.cn/uploads/5ce4abe5cf8a8.png" class="study_c img-responsive">
                     </router-link>
                 </div>
                 <div class="clearfix study_g">
-                    <router-link to="/active/novice_guide" class="f_left">
+                    <router-link to="/article/novice_guide" class="f_left">
                         <img  src="http://e.jfedui.cn/uploads/5ce4abca883cf.png" class="study_d img-responsive">
                     </router-link>
                 </div>
@@ -78,12 +78,14 @@
             }
         },
         created() {
+            const loading = this.$toast.loading({message:'加载中...',overlay:true});
             Banner()
                 .then(response => {
                     this.swipeImages = response.data;
                 });
             indexMenu()
                 .then(response => {
+                    loading.clear();
                     const {data} = response;
                     let bankList = {};
                     let page = 1;
