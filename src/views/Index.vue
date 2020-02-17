@@ -8,7 +8,7 @@
         <div style="padding-top:2.5rem">
             <div class="index-nav">
                 <van-swipe class="my-swipe" :autoplay="3000" indicator-color="#007aff">
-                    <van-swipe-item v-for="(item, index) in swipeImages" :key="index">
+                    <van-swipe-item v-for="(item, index) in swipeImages" :key="index" @click="swipeClickHandler(item.id)">
                         <img :src="item.image"/>
                     </van-swipe-item>
 
@@ -103,6 +103,11 @@
                 .catch(error => {
                     this.$toast.fail('请求失败');
                 })
+        },
+        methods: {
+            swipeClickHandler(id){
+                this.$router.push('/banner/'+id);
+            }
         }
     }
 </script>

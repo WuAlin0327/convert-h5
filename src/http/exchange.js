@@ -16,6 +16,7 @@ export function Banks() {
  * 获取银行详情
  * @param id
  * @returns {AxiosPromise}
+ * @constructor
  */
 export function bankDetail(id) {
     return request({
@@ -31,6 +32,7 @@ export function bankDetail(id) {
  * 获取银行兑换物品详情
  * @param id
  * @returns {AxiosPromise}
+ * @constructor
  */
 export function bankGoods(id) {
     return request({
@@ -46,6 +48,7 @@ export function bankGoods(id) {
  * 提交兑换信息
  * @param params
  * @returns {AxiosPromise}
+ * @constructor
  */
 export function submitExchange(params) {
     return request({
@@ -58,6 +61,7 @@ export function submitExchange(params) {
 /**
  * 兑换订单列表
  * @returns {AxiosPromise}
+ * @constructor
  */
 export function order() {
     return request({

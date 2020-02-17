@@ -10,7 +10,7 @@ const router = new VueRouter({
         {
             path: '/',
             name: 'home',
-            component: () => import('../views/Index'),
+            component: () => import('@/views/Index'),
             meta: {
                 isAuth: false,
                 showFooter: true,
@@ -19,7 +19,7 @@ const router = new VueRouter({
         {
             path:'/upgrade',
             name: 'upgrade',
-            component: () => import('../views/Upgrade'),
+            component: () => import('@/views/Upgrade'),
             meta: {
                 isAuth: false,
                 showFooter: true
@@ -28,7 +28,7 @@ const router = new VueRouter({
         {
             path: '/user',
             name: 'user',
-            component: () => import('../views/account/User'),
+            component: () => import('@/views/account/User'),
             meta: {
                 isAuth: true,
                 showFooter: true
@@ -37,16 +37,34 @@ const router = new VueRouter({
         {
             path: '/user/settings',
             name: 'userSettings',
-            component: () => import('../views/account/user/Settings'),
+            component: () => import('@/views/account/user/Settings'),
             meta: {
                 isAuth: true,
                 showFooter: true
             }
         },
         {
+            path: '/user/settings/bank',
+            name: 'userBank',
+            component: () => import('@/views/account/user/settings/Bank'),
+            meta: {
+                isAuth: true,
+                showFooter: false
+            }
+        },
+        {
+            path: '/user/settings/addbank',
+            name: 'userAddBank',
+            component: () => import('@/views/account/user/settings/AddBank'),
+            meta: {
+                isAuth: true,
+                showFooter: false
+            }
+        },
+        {
             path: '/user/aboutus',
             name: 'userAboutus',
-            component: () => import('../views/account/user/Aboutus'),
+            component: () => import('@/views/account/user/Aboutus'),
             meta: {
                 isAuth: false,
                 showFooter: true
@@ -55,7 +73,7 @@ const router = new VueRouter({
         {
             path: '/user/setUserInfo',
             name: 'setUserInfo',
-            component: () => import('../views/account/user/setUserInfo'),
+            component: () => import('@/views/account/user/setUserInfo'),
             meta: {
                 isAuth: true,
                 showFooter: true
@@ -64,7 +82,7 @@ const router = new VueRouter({
         {
             path:'/login',
             name:'login',
-            component: () => import('../views/account/Login'),
+            component: () => import('@/views/account/Login'),
             meta: {
                 isAuth: false,
                 showFooter: false,
@@ -73,7 +91,7 @@ const router = new VueRouter({
         {
             path: '/register',
             name: 'register',
-            component: () => import('../views/account/Register'),
+            component: () => import('@/views/account/Register'),
             meta: {
                 isAuth: false,
                 showFooter: false
@@ -82,7 +100,7 @@ const router = new VueRouter({
         {
             path: '/account/forget',
             name: 'forget',
-            component: () => import('../views/account/ForgetPassword'),
+            component: () => import('@/views/account/ForgetPassword'),
             meta: {
                 isAuth: false,
                 showFooter: false
@@ -91,7 +109,7 @@ const router = new VueRouter({
         {
             path: '/bank/:id',
             name: 'bank',
-            component: () => import('../views/BankDetail'),
+            component: () => import('@/views/BankDetail'),
             meta: {
                 isAuth: false,
                 showFooter: true
@@ -100,7 +118,7 @@ const router = new VueRouter({
         {
             path: '/article/:name',
             name: 'article',
-            component: () => import('../views/Article'),
+            component: () => import('@/views/Article'),
             meta: {
                 isAuth: false,
                 showFooter: true
@@ -109,7 +127,16 @@ const router = new VueRouter({
         {
             path: '/noticeList',
             name: 'noticeList',
-            component: () => import('../views/NoticeList'),
+            component: () => import('@/views/notice/NoticeList'),
+            meta: {
+                isAuth: false,
+                showFooter: true
+            }
+        },
+        {
+            path: '/noticeDetail/:id',
+            name: 'noticeDetail',
+            component: () => import('@/views/notice/NoticeDetail'),
             meta: {
                 isAuth: false,
                 showFooter: true
@@ -118,7 +145,7 @@ const router = new VueRouter({
         {
             path: '/signin',
             name: 'signin',
-            component: () => import('../views/account/Signin'),
+            component: () => import('@/views/account/Signin'),
             meta: {
                 isAuth: true,
                 showFooter: true
@@ -127,7 +154,7 @@ const router = new VueRouter({
         {
             path: '/share',
             name: 'share',
-            component: () => import('../views/Share'),
+            component: () => import('@/views/Share'),
             meta: {
                 isAuth: false,
                 showFooter: true
@@ -136,7 +163,7 @@ const router = new VueRouter({
         {
             path: '/exchange',
             name: 'exchange',
-            component: () => import('../views/exchange/Exchange'),
+            component: () => import('@/views/exchange/Exchange'),
             meta: {
                 isAuth: false,
                 showFooter: true
@@ -145,7 +172,7 @@ const router = new VueRouter({
         {
             path: '/exchange/list',
             name: 'exchangeList',
-            component: () => import('../views/exchange/ExchangeList'),
+            component: () => import('@/views/exchange/ExchangeList'),
             meta: {
                 isAuth: false,
                 showFooter: true
@@ -154,7 +181,7 @@ const router = new VueRouter({
         {
             path: '/exchange/goods/:id',
             name: 'exchangeGoods',
-            component: () => import('../views/exchange/ExchangeGoods'),
+            component: () => import('@/views/exchange/ExchangeGoods'),
             meta: {
                 isAuth: false,
                 showFooter: false
@@ -163,7 +190,7 @@ const router = new VueRouter({
         {
             path: '/exchange/submit/images/:goodsId',
             name: 'submitImages',
-            component: () => import('../views/exchange/submit/Images'),
+            component: () => import('@/views/exchange/submit/Images'),
             meta: {
                 isAuth: true,
                 showFooter: false
@@ -172,7 +199,7 @@ const router = new VueRouter({
         {
             path: '/exchange/submit/sms/:goodsId',
             name: 'submitSms',
-            component: () => import('../views/exchange/submit/Sms'),
+            component: () => import('@/views/exchange/submit/Sms'),
             meta: {
                 isAuth: true,
                 showFooter: false
@@ -181,7 +208,7 @@ const router = new VueRouter({
         {
             path: '/exchange/submit/integral/:goodsId',
             name: 'submitIntegral',
-            component: () => import('../views/exchange/submit/Integral'),
+            component: () => import('@/views/exchange/submit/Integral'),
             meta: {
                 isAuth: true,
                 showFooter: false
@@ -190,10 +217,19 @@ const router = new VueRouter({
         {
             path: '/exchange/order',
             name: 'order',
-            component: () => import('../views/exchange/Order'),
+            component: () => import('@/views/exchange/Order'),
             meta: {
                 isAuth: true,
                 showFooter: true,
+            }
+        },
+        {
+            path: '/banner/:id',
+            name: 'banner',
+            component: () => import('@/views/BannerDetail'),
+            meta: {
+                isAuth: false,
+                showFooter: true
             }
         }
     ]

@@ -1,7 +1,11 @@
 <template>
-    <h1>
-        用户设置列表页面
-    </h1>
+    <div>
+        <van-cell-group>
+            <van-cell title="修改密码" is-link to="index" />
+            <van-cell title="修改手机号" is-link to="index" />
+            <van-cell title="银行卡管理" is-link to="/user/settings/bank" />
+        </van-cell-group>
+    </div>
 </template>
 
 <script>

@@ -53,7 +53,7 @@
             </van-cell-group>
         </div>
         <div class="cell">
-            <van-button type="danger" block>退出登录</van-button>
+            <van-button type="danger" block @click="logout">退出登录</van-button>
         </div>
         <Kfpop
                 :img="CHECK_URL(wx.wx_qrcode)"
@@ -69,9 +69,9 @@
 </template>
 
 <script>
-    import Kfpop from "../../components/Kfpop";
-    import {UserInfo} from "../../http/user";
-    import {Service} from "../../http";
+    import Kfpop from "@/components/Kfpop";
+    import {UserInfo,LogoutApi} from "@/http/user";
+    import {Service} from "@/http";
 
     export default {
         name: "User",
@@ -105,6 +105,13 @@
             },
             closeHandler(){
                 this.kfShow = false;
+            },
+            logout(){
+                LogoutApi()
+                    .then(response => {
+                        this.$store.dispatch('user/resetToken');
+                        this.$router.push('/login');
+                    })
             }
         },
         created() {
@@ -113,7 +120,7 @@
                 .then(response => {
                     loading.clear();
                     this.userInfo = response.data;
-                })
+                });
             Service()
                 .then(response => {
                     console.log(response);

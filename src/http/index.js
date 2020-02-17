@@ -4,6 +4,7 @@ import request from '../utils/request'
  * 配置列表
  * @param params
  * @returns {AxiosPromise}
+ * @constructor
  */
 export function configApi(params = '*'){
     return request({
@@ -20,21 +21,25 @@ export function configApi(params = '*'){
  * @param account
  * @param password
  * @returns {AxiosPromise}
+ * @constructor
  */
 export function loginApi(account,password) {
+    const data = new FormData;
+    data.append('account',account);
+    data.append('password',password);
     return request({
         url: '/api/user/login',
         method: 'post',
-        params: {
-            account,
-            password
+        data: data,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
         }
     })
 }
 
 /**
  * Banner图
- * @returns {*}
+ * @returns {AxiosPromise}
  * @constructor
  */
 export function Banner() {
@@ -46,7 +51,8 @@ export function Banner() {
 
 /**
  * 首页菜单
- * @returns {*}
+ * @returns {AxiosPromise}
+ * @constructor
  */
 export function indexMenu() {
     return request({
@@ -72,6 +78,7 @@ export function indexMenu() {
  * 图片上传
  * @param data
  * @returns {AxiosPromise}
+ * @constructor
  */
 export const uploadImage = data => request({ url: '/api/common/upload', method: 'post', headers: { 'Content-Type': 'multipart/form-data' }, data });
 
@@ -84,5 +91,15 @@ export function Service() {
     return request({
         url: '/api/exclusive/service',
         method: 'get'
+    })
+}
+
+export function BannerDetail(id) {
+    return request({
+        url: '/api/banner/detail',
+        method: 'get',
+        params:{
+            id
+        }
     })
 }
