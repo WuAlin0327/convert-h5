@@ -62,6 +62,15 @@ const router = new VueRouter({
             }
         },
         {
+            path: '/user/settings/changeMobile',
+            name: 'changeMobile',
+            component: () => import('@/views/account/user/settings/ChangeMobile'),
+            meta: {
+                isAuth: true,
+                showFooter: true
+            }
+        },
+        {
             path: '/user/aboutus',
             name: 'userAboutus',
             component: () => import('@/views/account/user/Aboutus'),
@@ -74,6 +83,42 @@ const router = new VueRouter({
             path: '/user/setUserInfo',
             name: 'setUserInfo',
             component: () => import('@/views/account/user/setUserInfo'),
+            meta: {
+                isAuth: true,
+                showFooter: true
+            }
+        },
+        {
+            path: '/user/team',
+            name:'userTeam',
+            component: () => import('../views/account/user/Team'),
+            meta: {
+                isAuth: true,
+                showFooter: true
+            }
+        },
+        {
+            path: '/user/income',
+            name:'userIncome',
+            component: () => import('../views/account/user/Income'),
+            meta: {
+                isAuth: true,
+                showFooter: true
+            }
+        },
+        {
+            path: '/user/profit',
+            name:'userProfit',
+            component: () => import('../views/account/user/Profit'),
+            meta: {
+                isAuth: true,
+                showFooter: true
+            }
+        },
+        {
+            path: '/user/cash',
+            name:'userCash',
+            component: () => import('../views/account/user/Cash'),
             meta: {
                 isAuth: true,
                 showFooter: true
@@ -154,10 +199,37 @@ const router = new VueRouter({
         {
             path: '/share',
             name: 'share',
-            component: () => import('@/views/Share'),
+            component: () => import('@/views/share/Share'),
             meta: {
                 isAuth: false,
                 showFooter: true
+            }
+        },
+        {
+            path: '/share/qrcode',
+            name: 'shareQrcode',        // 二维码分享
+            component: () => import('../views/share/Qrcode'),
+            meta: {
+                isAuth: true,
+                showFooter: false
+            }
+        },
+        {
+            path: '/share/spread',
+            name: 'shareSpread', // 软文分享
+            component: () => import('../views/share/Spread'),
+            meta: {
+                isAuth: false,
+                showFooter: true
+            }
+        },
+        {
+            path: '/share/push',
+            name: 'sharePush',      //地推
+            component: () => import('../views/share/Push'),
+            meta: {
+                isAuth: false,
+                showFooter: false
             }
         },
         {

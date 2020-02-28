@@ -91,3 +91,45 @@ export function withdrawBank() {
          method: 'get'
      })
 }
+
+/**
+ * 注册
+ * @param form
+ * @returns {AxiosPromise}
+ * @constructor
+ */
+export function Register(form) {
+    const data = new FormData();
+    for (const key in form){
+        data.append(key,form[key])
+    }
+    return request({
+        url: '/api/user/register',
+        method: 'post',
+        data
+    })
+}
+
+export function resetPwd(form) {
+    const data = new FormData();
+    for (const key in form){
+        data.append(key,form[key])
+    }
+    return request({
+        url: '/api/user/resetpwd',
+        method: 'post',
+        data
+    })
+}
+
+export function sendSms(mobile,event) {
+    return request({
+        url: '/api/sms/send',
+        method:'post',
+        params: {
+            mobile,
+            event
+        }
+    })
+}
+

@@ -1,7 +1,7 @@
 <template>
     <div v-show="show" class="pop-box kf-pop " style="display: block;">
         <div class="kf-pop-box">
-            <img class="recode-img" :src="img" alt="" onerror="javascript:this.src='/static/h5/img/default/default_pic.png'">
+            <img class="recode-img" :src="img" alt="" >
             <div class="cmain font-24 margin-y15 wx_number">{{title}}</div>
             <div class="c999 font-12">
                 {{worktime}}<br>

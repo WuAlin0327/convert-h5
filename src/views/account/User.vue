@@ -31,10 +31,10 @@
             </div>
             <div class="income">
                 <ul class="income_ul">
-                    <li class="income_li"><span>0</span><a href="/h5/our/myteam/" style="color:#ffffff"><span>我的团队</span></a></li>
-                    <li class="income_li"><span>0.10</span><a href="/h5/profit/" style="color:#ffffff"><span>累计收益</span></a></li>
-                    <li class="income_li"><span>338.38</span><a href="/h5/our/profit/" style="color:#ffffff"><span>累计佣金</span></a></li>
-                    <li class="income_li"><span>0.10</span><a href="/h5/our/cash/" style="color:#ffffff"><span>余额提现</span></a></li>
+                    <li class="income_li"><span>{{userInfo.teamCount}}</span><router-link to="/user/team" style="color:#ffffff"><span>我的团队</span></router-link></li>
+                    <li class="income_li"><span>{{userInfo.CumulativeIncome}}</span><router-link to="/user/income?from=self" style="color:#ffffff"><span>累计收益</span></router-link></li>
+                    <li class="income_li"><span>{{userInfo.CumulativeCommission}}</span><router-link to="/user/income?from=child" style="color:#ffffff"><span>累计佣金</span></router-link></li>
+                    <li class="income_li"><span>{{userInfo.money}}</span><router-link to="/user/cash" style="color:#ffffff"><span>余额提现</span></router-link></li>
                 </ul>
             </div>
         </div>
@@ -91,8 +91,12 @@
                         name:'',
                         url:'',
                     },
-                    money:'',
                     mobile:'',
+                    teamCount: 0,
+                    CumulativeIncome:0,
+                    CumulativeCommission:0,
+                    money:0,
+
                 }
             }
         },
@@ -123,7 +127,6 @@
                 });
             Service()
                 .then(response => {
-                    console.log(response);
                     this.wx = {
                         wx_number: response.data.wx_code,
                         wx_qrcode: response.data.wx_image,
@@ -255,14 +258,5 @@
     .cell{
         margin-top: .5rem;
     }
-    .share-pop-box, .share-pop-box-top {
-        background: url(../../assets/images/user/share-img.png) no-repeat;
-        width: 100%;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-size: 100% 100%;
-        z-index: 999;
-    }
+
 </style>

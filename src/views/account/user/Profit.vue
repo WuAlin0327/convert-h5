@@ -1,12 +1,10 @@
 <template>
-    <h1>
-        分享页面
-    </h1>
+    <h1>累计佣金</h1>
 </template>
 
 <script>
     export default {
-        name: "Share"
+        name: "Profit"
     }
 </script>
 
