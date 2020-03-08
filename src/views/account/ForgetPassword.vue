@@ -6,7 +6,7 @@
                 label="手机号"
                 placeholder="请输入手机号"
         >
-            <van-button slot="button" size="small" type="primary" @click="onSendSms">发送验证码</van-button>
+            <van-button slot="button" size="small" type="primary" @click="onSendSms" :disabled="isSend">{{!isSend?'发送验证码':count+'秒后再次发送'}}</van-button>
         </van-field>
         <van-field
                 v-model="form.captcha"
@@ -50,6 +50,8 @@
                     newpassword:'',
                     r_password:'',
                 },
+                isSend: false,
+                count: 60,
             }
         },
         methods: {
@@ -57,6 +59,16 @@
                 sendSms(this.form.mobile,'resetpwd')
                     .then(response => {
                         if (response.code){
+                            // this.$toast.success({message: '发送验证码'})
+                            this.isSend = true;
+                            const interval = setInterval( () => {
+                                if (this.count == 0){
+                                    this.isSend = false;
+                                    this.count = 60;
+                                    clearInterval(interval);
+                                }
+                                this.count -= 1;
+                            },1000);
                             this.$toast.success({
                                 message: response.msg
                             })

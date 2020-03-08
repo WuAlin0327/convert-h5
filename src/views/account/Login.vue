@@ -31,7 +31,12 @@
 			<router-link to="/account/forget">忘记密码</router-link>
 			<router-link class="cmain" to="/register">用户注册</router-link>
 		</div>
-		<p class="c999 text-center " style="margin-top: 3rem">
+		<div v-if="isWeChat" style="text-align: center">
+			<van-divider>第三方登录</van-divider>
+			<img @click="weChatLogin" src="../../assets/images/weChat.png" id="wechat" alt="">
+
+		</div>
+		<p class="c999 text-center " style="margin-top: 1rem">
 			登录/注册即表示同意 <span @click="showAgreement" class="cmain">《用户协议》</span></p>
 	</div>
 </template>
@@ -39,6 +44,7 @@
 <script>
 	import { configApi } from '../../http'
 	import { removeToken } from "../../utils/token";
+	import {wx} from '../../settings'
 
 	export default {
 		name: "Login",
@@ -49,7 +55,8 @@
 				username: '',   				// 用户名
 				password: '',   				// 密码
 				baseUrl: '',					// 首页链接
-				passwordInputType: 'password' 	// 密码输入框类型
+				passwordInputType: 'password', 	// 密码输入框类型
+				isWeChat: false
 			}
 		},
 		created() {
@@ -59,6 +66,10 @@
 				this.agreement = response.data['basic.user_registration_agreement'];
 				this.baseUrl = response.data['basic.base_url']
 			});
+			var isWeixin = navigator.userAgent.toLowerCase().indexOf("micromessenger") != -1;
+			if (isWeixin) {
+				this.isWeChat = true;
+			}
 		},
 		methods: {
 			clickEyeHandler(){
@@ -67,6 +78,11 @@
 				}else{
 					this.passwordInputType =  'password';
 				}
+			},
+			weChatLogin(){
+				let appId = wx.AppID;
+				let redirectUrl = encodeURIComponent('http://h5.convert.ceanro.cn/wxbind');
+				window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
 			},
 			showAgreement(){
 				const argument = this.agreement;
@@ -108,6 +124,9 @@
 </script>
 
 <style scoped>
+	#wechat{
+		width: 3rem;
+	}
 	.main-content {
 		padding: 0 .75rem 0 .75rem;
 	}

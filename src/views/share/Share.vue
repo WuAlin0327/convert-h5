@@ -61,6 +61,7 @@
 </template>
 
 <script>
+    import {UserInfo} from "../../http/user";
     export default {
         name: "Share",
         data(){
@@ -71,6 +72,9 @@
         methods: {
             toRegister(){
                 // 跳转到注册页面
+                UserInfo().then(response => {
+                    this.$router.push('/register?mobile=' + response.data.mobile)
+                })
             }
         }
     }

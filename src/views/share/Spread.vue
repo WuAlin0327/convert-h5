@@ -16,7 +16,7 @@
                         <div class="font-16 c333">{{item.title}}</div>
                         <p class="font-12 c999"></p>
                     </div>
-                    <div class="spread-img" data-id="31"><img src="../../assets/images/share/spread.png" alt=""></div>
+                    <div class="spread-img" @click="updateSpred(index)"><img src="../../assets/images/share/spread.png" alt=""></div>
                 </div>
                 <div class="padding-y15" style="padding-left:45px;">
                     {{item.content}}
@@ -43,13 +43,19 @@
                 </div>
             </div>
         </div>
+        <div class="share-pop-box-top" v-show="shareShow" @click="onClickShare">
+        </div>
+        <SharePop :show="sharePopShow" :money="shareMoney"/>
     </div>
 </template>
 
 <script>
     import {category,article} from "../../http/advertorial";
     import { ImagePreview } from 'vant';
-
+    import {wxConfig} from "../../http/wx";
+    import {UserInfo} from "../../http/user";
+    import {shareSuccess} from "../../http/share";
+    import SharePop from "../../components/SharePop";
     export default {
         name: "Spread",
         data(){
@@ -57,6 +63,11 @@
                 categoryList:[],
                 active:'',
                 articleList: [],
+                shareShow:false,
+                link:'',
+                userInfo:{},
+                sharePopShow:false,
+                shareMoney:0
             }
         },
         created() {
@@ -65,6 +76,11 @@
                     this.categoryList = response.data;
                 });
             this.getArticle();
+            this.getUserInfo();
+
+        },
+        components: {
+            SharePop
         },
         methods: {
             changeTab(name){
@@ -75,6 +91,10 @@
                     .then(response => {
                         this.articleList = response.data;
                     })
+            },
+            onClickShare(){
+              this.shareShow = false;
+              this.sharePopShow = false;
             },
             onImagePreview(index,id){
                 this.articleList.forEach((item) => {
@@ -89,6 +109,116 @@
                 })
 
             },
+            shareSucc(){
+                shareSuccess().then(res => {
+                    this.shareShow = false;
+                    if (res.code){
+                        this.sharePopShow = true;
+                        this.shareMoney = res.data.money;
+                    }else{
+                        this.$toast.fail({
+                            message: res.msg
+                        })
+                    }
+                });
+            },
+            getUserInfo(){
+                UserInfo()
+                    .then(response => {
+                        this.userInfo = response.data;
+
+                    });
+            },
+
+            updateSpred(index){
+                this.shareShow = true;
+                this.sharePopShow = false;
+                const that = this;
+                const article = this.articleList[index];
+                // 拿到用户信息再进行配置wx
+                wxConfig().then(data => {
+                    const that = this;
+                    wx.config({
+                        debug: false,
+                        appId: data.appId,
+                        timestamp: data.timestamp,
+                        nonceStr: data.nonceStr,
+                        signature: data.signature,
+                        jsApiList:  [
+                            // 所有要调用的 API 都要加到这个列表中
+                            'onMenuShareAppMessage',
+                            'onMenuShareTimeline',
+                            'onMenuShareQQ',
+                            'onMenuShareWeibo',
+                            'onMenuShareQZone',
+                            'updateAppMessageShareData',
+                            'updateTimelineShareData'
+                        ]
+                    });
+                    wx.ready(function () {
+                        const title = '积分汇民兑';
+                        const desc = article.content;
+                        const link = 'http://h5.convert.ceanro.cn/register?mobile='+that.userInfo.mobile;
+                        const imgUrl = article.picimage;
+                        // 分享到朋友
+                        wx.onMenuShareAppMessage({
+                            title,
+                            desc,
+                            link,
+                            imgUrl,
+                            success: function () {
+                                that.shareSucc()
+                            }
+                        });
+
+                        // 分享到朋友圈
+                        wx.onMenuShareTimeline({
+                            title,
+                            link,
+                            imgUrl,
+                            success: function () {
+                                that.shareSucc()
+                            }
+                        });
+
+                        // 分享到QQ
+                        wx.onMenuShareQQ({
+                            title,
+                            desc,
+                            link,
+                            imgUrl,
+                            success: function () {
+                                that.shareSucc()
+                            }
+                        });
+
+                        // 分享到微博
+                        wx.onMenuShareWeibo({
+                            title,
+                            desc,
+                            link,
+                            imgUrl,
+                            success: function () {
+                                that.shareSucc()
+                            },
+                        });
+
+                        // 分享到QQ空间
+                        wx.onMenuShareQZone({
+                            title,
+                            desc,
+                            link,
+                            imgUrl,
+                            success: function () {
+                                that.shareSucc()
+                            }
+                        });
+                    });
+
+                });
+
+            }
+
         }
     }
 </script>

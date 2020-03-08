@@ -93,6 +93,21 @@ export function withdrawBank() {
 }
 
 /**
+ * 提现申请
+ */
+export function withdraw(forms) {
+    const data = new FormData();
+    for (const key in forms){
+        data.append(key,forms[key])
+    }
+    return request({
+        url:'/api/user/withdraw',
+        method: 'post',
+        data
+    })
+}
+
+/**
  * 注册
  * @param form
  * @returns {AxiosPromise}
@@ -133,3 +148,96 @@ export function sendSms(mobile,event) {
     })
 }
 
+export function Team(sort) {
+    return request({
+        url: '/api/user/team',
+        method: 'get',
+        params: {
+            sort
+        }
+    })
+
+}
+
+export function userDetail(uid) {
+    return request({
+        url: '/api/user/detail',
+        method: 'get',
+        params: {
+            uid
+        }
+    })
+
+}
+
+export function cash() {
+    return request({
+        url: '/api/user/cash',
+        method: 'get'
+    })
+}
+
+export function certification(forms) {
+    const data = new FormData;
+    for (let i in forms){
+        data.append(i,forms[i])
+    }
+    return request({
+        url: '/api/user/certification',
+        method:'post',
+        data
+    })
+
+}
+
+/**
+ * 签到数据
+ * @returns {AxiosPromise}
+ */
+export function signIn() {
+    return request({
+        url: '/api/user/signin',
+        method: 'get'
+    })
+
+}
+
+export function submitSignIn() {
+    return request({
+        url: '/api/user/submitSignin',
+        method: 'post'
+    })
+}
+
+export function changeMobile(data) {
+    return request({
+        url: '/api/user/changemobile',
+        method: 'post',
+        data
+    })
+
+}
+
+export  function userProfile(data) {
+    return request({
+        url: '/api/user/profile',
+        method: 'post',
+        data
+    })
+}
+
+export function mobileLogin(data) {
+    return request({
+        url: '/api/user/mobilelogin',
+        method: 'post',
+        data
+    })
+}
+
+export function checkOpenid(data) {
+    return request({
+        url: '/api/user/checkOpenid',
+        method: 'post',
+        data
+    })
+}

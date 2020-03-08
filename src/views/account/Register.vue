@@ -6,6 +6,7 @@
                         required
                         label="推荐人手机号"
                         placeholder="推荐人手机号(必填)"
+                        :disabled="referee"
                 />
                 <van-field
                         v-model="form.username"
@@ -21,7 +22,7 @@
                         label="手机号"
                         placeholder="请输入手机号"
                 >
-                    <van-button slot="button" size="small" type="primary" @click="onSendSms">发送验证码</van-button>
+                    <van-button slot="button" size="small" type="primary" @click="onSendSms" :disabled="isSend">{{!isSend?'发送验证码':count+'秒后再次发送'}}</van-button>
                 </van-field>
                 <van-field
                         v-model="form.code"
@@ -74,8 +75,21 @@
                     password: false,
                     r_password: false,
                     code:false
-                }
+                },
+                referee:false,
+                isSend: false,
+                count: 60,
             };
+        },
+        created() {
+            const {mobile} = this.$route.query;
+            if (mobile){
+                this.referee = true;
+                this.form.referee_mobile = mobile;
+            }
+            const rediUrl = 'http://h5.convert.ceanro.cn/user';
+            const code_url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2f235ac3ab6e8324&redirect_uri=&response_type=code&scope=SCOPE&state=STATE#wechat_redirect';
+
         },
         methods: {
             onSubmit(){
@@ -84,10 +98,25 @@
                     Register(this.form)
                         .then(response => {
                             if (response.code){
+                                var isWeixin = navigator.userAgent.toLowerCase().indexOf("micromessenger") != -1;
                                 this.$toast.success({
                                     message: '注册成功',
                                     onClose: () => {
-                                        this.$router.push('/login')
+                                        if (isWeixin){
+                                            this.$dialog.confirm({
+                                                title:'注册成功',
+                                                message: '是否前往关注公众号',
+                                                showCancelButton: true,
+                                                confirmButtonText: '前往关注公众号',
+                                                cancelButtonText: '前往登录'
+                                            }).then(() => {
+                                                window.location.href = 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzIwMzkxMjg3OQ==&scene=124#wechat_redirect';
+                                            }).catch(() => {
+                                                    this.$router.push('/login')
+                                                })
+                                        }else{
+                                            this.$router.push('/login')
+                                        }
                                     }
                                 })
                             }else{
@@ -122,6 +151,16 @@
                 sendSms(this.form.mobile,'register')
                     .then(response => {
                         if (response.code){
+                            // this.$toast.success({message: '发送验证码'})
+                            this.isSend = true;
+                            const interval = setInterval( () => {
+                                if (this.count == 0){
+                                    this.isSend = false;
+                                    this.count = 60;
+                                    clearInterval(interval);
+                                }
+                                this.count -= 1;
+                            },1000);
                             this.$toast.success({message:'发送成功'})
                         }else{
                             this.$toast.fail({
@@ -129,7 +168,6 @@
                             })
                         }
                     })
-                // this.$toast.success({message: '发送验证码'})
 
             }
 

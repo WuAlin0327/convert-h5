@@ -7,10 +7,13 @@ import './assets/css/common.css';
 import { __CDN__ } from '@/settings'
 import 'amfe-flexible';
 import './utils/rem';
+
 Vue.use(Vant);
 import App from './App.vue';
+import {isBase64} from "./utils/common";
 
 window.CHECK_URL = function(url){
+  if (isBase64(url))return url;
   //url= 协议://(ftp的登录信息)[IP|域名](:端口号)(/或?请求参数)
   var strRegex = '^((https|http|ftp)://)?'//(https或http或ftp):// 可有可无
       + '(([\\w_!~*\'()\\.&=+$%-]+: )?[\\w_!~*\'()\\.&=+$%-]+@)?' //ftp的user@  可有可无

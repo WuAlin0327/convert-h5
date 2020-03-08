@@ -63,6 +63,7 @@
                 :show="kfShow"
                 :close-handler="closeHandler"
         />
+        <SharePop :show="sharePopShow" :money="shareMoney"/>
         <div class="share-pop-box-top" v-show="shareShow" @click="shareShow=false">
         </div>
     </div>
@@ -72,6 +73,9 @@
     import Kfpop from "@/components/Kfpop";
     import {UserInfo,LogoutApi} from "@/http/user";
     import {Service} from "@/http";
+    import {wxConfig} from "../../http/wx";
+    import SharePop from "../../components/SharePop";
+    import {shareSuccess} from "../../http/share";
 
     export default {
         name: "User",
@@ -97,11 +101,14 @@
                     CumulativeCommission:0,
                     money:0,
 
-                }
+                },
+                sharePopShow: false,
+                shareMoney: 0
             }
         },
         components: {
-            Kfpop
+            Kfpop,
+            SharePop
         },
         methods: {
             shareHandler(){
@@ -112,10 +119,23 @@
             },
             logout(){
                 LogoutApi()
-                    .then(response => {
+                    .then(() => {
                         this.$store.dispatch('user/resetToken');
                         this.$router.push('/login');
                     })
+            },
+            shareSucc(){
+                this.shareShow = false;
+                shareSuccess().then(res => {
+                    if (res.code){
+                        this.sharePopShow = true;
+                        this.shareMoney = res.data.money;
+                    }else{
+                        this.$toast.fail({
+                            message: res.msg
+                        })
+                    }
+                });
             }
         },
         created() {
@@ -124,6 +144,88 @@
                 .then(response => {
                     loading.clear();
                     this.userInfo = response.data;
+                    // 拿到用户信息再进行配置wx
+                    wxConfig().then(data => {
+                        const that = this;
+                        wx.config({
+                            debug: false,
+                            appId: data.appId,
+                            timestamp: data.timestamp,
+                            nonceStr: data.nonceStr,
+                            signature: data.signature,
+                            jsApiList:  [
+                                // 所有要调用的 API 都要加到这个列表中
+                                'onMenuShareAppMessage',
+                                'onMenuShareTimeline',
+                                'onMenuShareQQ',
+                                'onMenuShareWeibo',
+                                'onMenuShareQZone',
+                                'updateAppMessageShareData',
+                                'updateTimelineShareData'
+                            ]
+                        });
+                        wx.ready(function () {
+                            const title = '积分汇民兑';
+                            const desc = '【积分汇民兑】'+that.userInfo.nickname + '邀请您注册';
+                            const link = 'http://h5.convert.ceanro.cn/register?mobile='+that.userInfo.mobile;
+                            const imgUrl = 'http://huimin.jfqmd.com/static/h5/img/logo/logo.png';
+                            // 分享到朋友
+                            wx.onMenuShareAppMessage({
+                                title,
+                                desc,
+                                link,
+                                imgUrl,
+                                success: function () {
+                                    that.shareSucc()
+                                }
+                            });
+
+                            // 分享到朋友圈
+                            wx.onMenuShareTimeline({
+                                title,
+                                link,
+                                imgUrl,
+                                success: function () {
+                                    that.shareSucc()
+                                }
+                            });
+
+                            // 分享到QQ
+                            wx.onMenuShareQQ({
+                                title,
+                                desc,
+                                link,
+                                imgUrl,
+                                success: function () {
+                                    that.shareSucc()
+                                }
+                            });
+
+                            // 分享到微博
+                            wx.onMenuShareWeibo({
+                                title,
+                                desc,
+                                link,
+                                imgUrl,
+                                success: function () {
+                                    that.shareSucc()
+                                },
+                            });
+
+                            // 分享到QQ空间
+                            wx.onMenuShareQZone({
+                                title,
+                                desc,
+                                link,
+                                imgUrl,
+                                success: function () {
+                                    that.shareSucc()
+                                }
+                            });
+                        });
+
+                    })
+
                 });
             Service()
                 .then(response => {
@@ -132,7 +234,8 @@
                         wx_qrcode: response.data.wx_image,
                         name: response.data.name
                     }
-                })
+                });
+
         }
     }
 </script>

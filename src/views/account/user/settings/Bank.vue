@@ -2,7 +2,7 @@
     <div>
         <div class="contain">
             <div class="banklist" id="bank_list">
-                <a href="javascript:;" v-for="(item,index) in bankList" :key="index">
+                <a href="javascript:;" @click="setBankStore(item.id,item.bank)" v-for="(item,index) in bankList" :key="index">
                     <span class="name">{{item.name}}</span>
                     <span class="bank">{{item.bank}}</span>
                     <span class="banknumber">{{item.number}}</span>
@@ -37,9 +37,22 @@
                     })
             },
             getUserBank(){
+                const loading = this.$toast.loading({message:'加载中...',overlay:true});
                 userBankList().then(response => {
+                    loading.clear();
                     this.bankList = response.data;
                 })
+            },
+            setBankStore(id,name){
+                this.$store.dispatch('user/bank',{id,name});
+                this.$toast.success({
+                    message: '选择成功',
+                    overlay:true,
+                    closeOnClickOverlay: true,
+                    onClose: ()=>{
+                        this.$router.push('/user/cash')
+                    }
+                });
             }
         }
     }

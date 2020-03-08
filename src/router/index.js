@@ -125,6 +125,24 @@ const router = new VueRouter({
             }
         },
         {
+            path: '/user/detail/:id',
+            name: 'userDetail',
+            component: () => import('../views/account/user/Detail'),
+            meta: {
+                isAuth: true,
+                showFooter: true
+            }
+        },
+        {
+            path: '/user/certification',
+            name: 'certification',
+            component: () => import('../views/account/user/Certification'),
+            meta: {
+                isAuth: true,
+                showFooter: true
+            }
+        },
+        {
             path:'/login',
             name:'login',
             component: () => import('@/views/account/Login'),
@@ -303,6 +321,26 @@ const router = new VueRouter({
                 isAuth: false,
                 showFooter: true
             }
+        },
+        {
+            path: '/wxbind',
+            name: 'wxbind',
+            component: () => import('../views/account/Wxbind'),
+            meta: {
+                isAuth: false,
+                showFooter: false
+            }
+        },
+        {
+            name:'404',
+            path:'/404.html',
+            component: () => import('../views/NotFound'),
+        },
+        {
+            path: '*',
+            redirect: {
+                name: "404"
+            }
         }
     ]
 });
@@ -311,9 +349,21 @@ const router = new VueRouter({
 router.beforeEach((to,from,next) => {
     // 如果需要前往的路由需要登录，则跳转到登录页面
     if (to.meta.isAuth && typeof store.getters.token == 'undefined'){
+
+        // //保存当前路由地址，授权后还会跳到此地址
+        // sessionStorage.setItem('wxRedirectUrl', to.fullPath)
+        // //请求微信授权,并跳转到 /WxAuth 路由
+        // let appId = 'wx2f235ac3ab6e8324';
+        // let redirectUrl = encodeURIComponent('http://h5.convert.ceanro.cn/wxbind');
+        // window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
         next('/login')
     }
-    next();
+    if (to.path !==  location.pathname && (to.name === 'shareSpread' || to.name === 'user')) {
+        location.assign(to.fullPath) // 此处不可使用location.replace
+    } else {
+        next()
+    }
 });
+
 
 export default router

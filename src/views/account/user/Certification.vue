@@ -1,17 +1,18 @@
 <template>
     <div class="main-content">
         <van-field v-model="form.name" :required="true" label="真实姓名" />
-        <van-field v-model="form.number" :required="true" type="tel" label="银行卡号" />
+        <van-field v-model="form.identity" :required="true" label="身份证号" />
         <van-field
                 readonly
                 clickable
                 name="picker"
                 :value="value"
-                label="银行"
+                label="开户银行"
                 placeholder="请选择银行"
                 @click="showPicker = true"
                 :required="true"
         />
+        <van-field v-model="form.number" :required="true" type="tel" label="银行卡号" />
         <van-popup v-model="showPicker" position="bottom">
             <van-picker
                     show-toolbar
@@ -25,10 +26,11 @@
 </template>
 
 <script>
-    import {withdrawBank,addUserBank} from "@/http/user";
+    import {withdrawBank,certification,} from "@/http/user";
+
 
     export default {
-        name: "AddBank",
+        name: "Certification",
         data(){
             return {
                 showPicker: false,
@@ -40,6 +42,7 @@
                     name: '',
                     number: '',
                     withdrawbank_id: '',
+                    identity:'',
                 }
             }
         },
@@ -63,18 +66,22 @@
                 this.showPicker = false;
             },
             onSubmit(){
-                const data = new FormData();
-                data.append('name',this.form.name);
-                data.append('number',this.form.number);
-                data.append('withdrawbank_id',this.form.withdrawbank_id);
-                addUserBank(data)
-                    .then(response => {
-                        if (response.code){
-                            this.$router.push('/user/settings/bank')
-                        }else{
-                            this.$toast.fail({message:response.msg});
-                        }
-                    })
+                certification(this.form).then(response => {
+                    if (response.code){
+                        this.$toast.success({
+                            message: response.msg,
+                            overlay: true,
+                            onClose: () => {
+                                this.$router.push('/user/cash')
+                            }
+
+                        })
+                    }else
+                        this.$toast.fail({
+                            message: response.msg,
+                            overlay: true
+                        })
+                })
             },
 
         }

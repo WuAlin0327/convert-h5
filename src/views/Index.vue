@@ -48,7 +48,7 @@
                     </router-link>
                 </div>
                 <div class="clearfix study_g">
-                    <router-link to="/article/agent_introduction" class="f_left">
+                    <router-link to="/article/agent_introduct" class="f_left">
                         <img src="http://e.jfedui.cn/uploads/5ce4abe5cf8a8.png" class="study_c img-responsive">
                     </router-link>
                 </div>
@@ -102,7 +102,7 @@
                 })
                 .catch(error => {
                     this.$toast.fail('请求失败');
-                })
+                });
         },
         methods: {
             swipeClickHandler(id){
