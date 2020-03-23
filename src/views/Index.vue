@@ -31,7 +31,7 @@
             </van-swipe>
         </div>
         <div id="notice">
-            <van-notice-bar text="通知内容" left-icon="volume-o"/>
+            <van-notice-bar :text="noticeList[active]" left-icon="volume-o"/>
         </div>
         <div class="study clearfix">
             <div class='clearfix'>
@@ -64,7 +64,7 @@
 
 <script>
     import {__CDN__} from '@/settings'
-    import {Banner, indexMenu} from '../http'
+    import {Banner, indexMenu,incomeLog} from '../http'
 
     export default {
         name: "Index",
@@ -75,6 +75,8 @@
                 indexNotice: __CDN__ + '/assets/img/h5/index/index-notice.png',
                 swipeImages: [],
                 bankMenu: [],
+                noticeList:[],
+                active: 0,
             }
         },
         created() {
@@ -103,10 +105,25 @@
                 .catch(error => {
                     this.$toast.fail('请求失败');
                 });
+            this.getRedeemLog();
+            setInterval(this.noticeChange,5000)
         },
         methods: {
             swipeClickHandler(id){
                 this.$router.push('/banner/'+id);
+            },
+            noticeChange(){
+                if (this.active != this.noticeList.length-1){
+                    this.active += 1;
+                }else{
+                    this.active = 0;
+                    this.getRedeemLog();
+                }
+            },
+            getRedeemLog(){
+                incomeLog().then(response => {
+                    this.noticeList = response.data
+                })
             }
         }
     }

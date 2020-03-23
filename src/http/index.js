@@ -103,3 +103,11 @@ export function BannerDetail(id) {
         }
     })
 }
+
+export function incomeLog() {
+    return request({
+        url: '/api/index/income',
+        method: 'get',
+
+    })
+}

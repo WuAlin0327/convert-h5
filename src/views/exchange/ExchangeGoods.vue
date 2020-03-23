@@ -38,8 +38,8 @@
         <Kfpop
                 :img="CHECK_URL(wx.wx_qrcode)"
                 :title="wx.wx_number"
-                worktime="财务工作时间：上午9：00-晚上21：00"
-                msg="保存二维码到微信添加财务微信"
+                worktime="客服工作时间：上午9：00-晚上21：00"
+                msg="保存二维码到微信添加客服微信"
                 :show="kf"
                 :close-handler="closeHandler"
         />
@@ -49,6 +49,7 @@
 <script>
     import {bankGoods} from "../../http/exchange";
     import {configApi} from "../../http";
+    import $ from 'jquery';
     import Kfpop from "../../components/Kfpop";
     export default {
         name: "ExchangeGoods",
@@ -78,13 +79,14 @@
             bankGoods(this.$route.params.id)
                 .then(response => {
                     this.bankGoods = response.data;
+
                     if (this.bankGoods.end_mode == 2){
                         this.kfBtnText = '联系客服报单'
                     }
                     this.wx = {
                         wx_qrcode: this.bankGoods.wx_image,
                         wx_number: this.bankGoods.wx_code
-                    }
+                    };
                     loading.clear()
                 });
 

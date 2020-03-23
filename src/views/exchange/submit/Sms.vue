@@ -18,12 +18,11 @@
                 <div class="addBtn" @click="addInput">添加输入框</div>
 
             </div>
-            <div class="messgae-box">
+            <div class="messgae-box" v-for="(row,index) in smsCodeList" :key="index">
                 <div class="message">
-                    <p class="padding-15">兑换码短信1</p>
-                    <input class="form2" v-model="smsCode" type="text" placeholder="请填写电子凭证码/短信内容">
+                    <p class="padding-15">兑换码短信{{index + 1}}</p>
+                    <input class="form2" v-model="smsCodeList[index]" type="text" placeholder="请填写电子凭证码/短信内容">
                 </div>
-
             </div>
 
         </div>
@@ -43,7 +42,8 @@
         data(){
             return {
                 bankName: '',
-                smsCode: ''
+                smsCode: '',
+                smsCodeList: [''],
             }
         },
         created() {
@@ -51,13 +51,24 @@
         },
         methods: {
             submit(){
-                this.$toast.success({
-                    message: '提交数据'
-                });
+                // 判断smsCodeList是否有重复
+                if (this.isRepeat(this.smsCodeList)){
+                    this.$dialog.alert({
+                        message: '短信兑换码不能重复！',
+                        title: '提示'
+                    });
+                    return false;
+                }
+                const smsCodes = [];
+                for (let i = 0;i<this.smsCodeList.length;i++){
+                    if (this.smsCodeList[i] !== ''){
+                        smsCodes.push(this.smsCodeList[i]);
+                    }
+                }
                 const params = {
                     bank_goods_id: this.$route.params.goodsId,
                     type: 2,
-                    sms_voucher: this.smsCode
+                    sms_voucher: smsCodes
                 };
                 const loading = this.$toast.loading({
                     message: '加载中...',
@@ -85,9 +96,16 @@
                     })
             },
             addInput(){
-                this.$toast.success({
-                    message: '添加输入框'
-                })
+                this.smsCodeList.push('')
+            },
+            isRepeat(arr){
+                var hash = {};
+                for(var i in arr) {
+                    if(hash[arr[i]])
+                        return true;
+                    hash[arr[i]] = true;
+                }
+                return false;
             }
         }
     }

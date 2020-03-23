@@ -43,6 +43,7 @@
                 <van-cell title="兑换清单" icon="bars" is-link to="/exchange/order" />
                 <van-cell title="招商加盟" icon="point-gift" is-link to="/article/league" />
                 <van-cell title="推荐好友" icon="share" is-link @click="shareHandler" />
+                <van-cell title="抽奖" icon="point-gift-o"  is-link />
             </van-cell-group>
         </div>
         <div class="cell">

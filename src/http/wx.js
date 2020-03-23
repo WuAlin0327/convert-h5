@@ -1,6 +1,6 @@
 import request from '../utils/request'
 import {__WX__} from '@/settings'
-export function wxConfig(url) {
+export function wxConfig() {
     return request({
         url: __WX__,
         method: 'get',

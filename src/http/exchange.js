@@ -51,10 +51,14 @@ export function bankGoods(id) {
  * @constructor
  */
 export function submitExchange(params) {
+    const data = new FormData;
+    for (var i in params){
+        data.append(i,params[i])
+    }
     return request({
         url: '/api/exchange/submitExchange',
         method: 'post',
-        params
+        data
     })
 }
 

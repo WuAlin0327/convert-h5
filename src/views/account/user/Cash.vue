@@ -81,7 +81,7 @@
                 })
             },
             moneyChange(){
-                if (parseInt(this.form.money) > 10 && parseInt(this.money) > parseInt(this.form.money)){
+                if (parseInt(this.form.money) > 10 && parseInt(this.money) >= parseInt(this.form.money)){
                     this.disabled = false;
                 }else{
                     this.disabled = true;

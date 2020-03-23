@@ -95,11 +95,16 @@
             afterRead(file,detail){
                 let param = new FormData();
                 param.append('file', file.file, file.file.name);
+                file.status = 'uploading';
+                file.message = '上传中...';
                 uploadImage(param)
                     .then(response => {
-                        this.fileList[detail.index] = {
-                            url: CHECK_URL(response.data.url),
-                            isImage: true
+                        if (response.code){
+                            file.status = 'done';
+                            file.url = CHECK_URL(response.data.url);
+                        }else{
+                            file.status = 'failed';
+                            file.message = '上传失败';
                         }
                     })
             },

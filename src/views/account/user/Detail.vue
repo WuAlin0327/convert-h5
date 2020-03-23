@@ -37,6 +37,18 @@
                     <span class="ren"><b>{{teamCount}}</b>人</span></li>
             </ul>
         </div>
+        <div class="order-search">
+            <div class="list-item" v-for="(item,index) in order" :key="index">
+                <div class="flex-box flex-between">
+                    <span class="c999">{{item.title}}</span>
+                    <span class="c999">{{item.status_text}}</span>
+                </div>
+                <div class="count">
+                    <p>申请时间： <span class="c333">{{item.createtime}}</span></p>
+                    <p class="margin-t10">兑换积分： <span class="c333">{{item.redeem_number?item.redeem_number:0}}</span></p>
+                </div>
+            </div>
+        </div>
         <div class="jion_date">
             <span>注册时间：2020-02-08 19:47:23</span>
         </div></div>
@@ -56,12 +68,14 @@
                     userLevel:{
                         name:'',
                         avatar:'',
-                    }
+                    },
+
                 },
                 cumulativeIncome: 0,
                 exchangeCount: 0,
                 teamCount:0,
-                createtime:''
+                createtime:'',
+                order: []
             }
         },
         created() {
@@ -69,12 +83,14 @@
             userDetail(this.$route.params.id)
                 .then(response => {
                     loading.clear();
-                    const {userInfo,cumulativeIncome,exchangeCount,teamCount,createtime} = response.data;
+                    const {userInfo,cumulativeIncome,exchangeCount,teamCount,createtime,redeemList} = response.data;
                     this.userInfo = userInfo;
                     this.cumulativeIncome = cumulativeIncome;
                     this.exchangeCount = exchangeCount;
                     this.teamCount = teamCount;
                     this.createtime = createtime;
+                    this.order = redeemList;
+
                 })
         }
     }
@@ -185,5 +201,26 @@
         font-weight: 500;
         border-radius: 10px;
         width: 100%;
+    }
+    .order-search .list-item {
+        padding: 0 15px;
+        background: #fff;
+        margin-bottom: .5rem;
+        margin-top: .5rem;
+    }
+    .order-search .list-item .flex-box {
+        height: 2rem;
+        line-height: 2rem;
+        border-bottom: 1px solid #ededed;
+    }
+    .order-search .list-item .count {
+        padding: .75rem 0;
+        color: #10B3F4;
+    }
+    .order-search ,.order-search p{
+        font-size: 12px;
+    }
+    .jion_date{
+        margin-bottom: 5rem;
     }
 </style>

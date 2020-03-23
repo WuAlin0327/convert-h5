@@ -22,10 +22,11 @@
         <div class="liebiao no-more" id="team_list">
             <router-link :to="'/user/detail/'+item.id" v-for="(item,index) in childrens" :key="index">
                 <div class="liebiaoleft">
-                    <img class="paixu_header_img" :src="CHECK_URL(item.userLevel.avatar)" alt="">
-                    <span class="messege">
+                    <img class="paixu_header_img" :src="CHECK_URL(item.avatar)" alt="">
+                <span class="messege">
           <span class="liebiaoname">{{item.nickname}}</span><br>
-          <span class="liebiaodate">{{item.jointime}}</span>
+          <span class="liebiaodate">{{item.mobile}}</span><br>
+          <span class="reddem">兑换总积分: {{item.integralCount}}</span>
         </span>
                 </div>
                 <div class="vip">
@@ -83,6 +84,10 @@
 </script>
 
 <style scoped>
+    span .reddem{
+        color: black;
+        font-size: 12px;
+    }
     .contain {
         width: 92%;
         height: 100%;
@@ -251,6 +256,7 @@
         width: 2.5rem;
         height: 2.5rem;
         margin-right: .25rem;
+        margin-top: 0.5rem;
     }
     a img {
         border: 0;
